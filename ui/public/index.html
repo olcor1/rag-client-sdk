@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>RAG Devtools UI (V3)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>RAG Devtools</h1>
+      <div id="env-status"></div>
+    </header>
+
+    <main>
+      <aside id="sidebar">
+        <div class="sidebar-top">
+          <h2>Fichiers du projet (B)</h2>
+          <input id="fileSearch" placeholder="Rechercher..." />
+          <div class="sidebar-actions">
+            <button id="syncSelectedBtn">Sync sélection</button>
+            <button id="syncAllBtn">Sync (all)</button>
+          </div>
+          <div class="sidebar-toggles">
+            <label><input type="checkbox" id="syncBeforeToggle" checked /> Sync avant Chat/Generate</label>
+            <label><input type="checkbox" id="inlineToggle" /> Inline fichiers (debug)</label>
+          </div>
+        </div>
+        <div id="file-tree"></div>
+      </aside>
+
+      <section id="content">
+        <div id="top-bar">
+          <label>
+            Project ID:
+            <input type="text" id="projectIdInput" />
+          </label>
+          <button id="saveProjectIdBtn">Utiliser</button>
+          <span id="lastSyncInfo"></span>
+        </div>
+
+        <div id="tabs">
+          <button data-tab="chat" class="tab active">Chat</button>
+          <button data-tab="generate" class="tab">Generate</button>
+          <button data-tab="memory" class="tab">Memory</button>
+        </div>
+
+        <div id="tab-chat" class="tab-panel active">
+          <div id="chat-messages" class="messages"></div>
+        </div>
+
+        <div id="tab-generate" class="tab-panel">
+          <div id="generate-result">
+            <h3>Résultat brut (JSON)</h3>
+            <pre id="generate-json"></pre>
+            <h3>Résumé</h3>
+            <div id="generate-summary"></div>
+            <button id="applyFilesBtn" disabled>Appliquer les fichiers générés</button>
+          </div>
+        </div>
+
+        <div id="tab-memory" class="tab-panel">
+          <div class="memory-controls">
+            <label>
+              Memory file path (côté serveur A):
+              <input type="text" id="memoryFilePathInput" value="domain.md" />
+            </label>
+            <button id="sendMemoryBtn">Envoyer ce texte en mémoire</button>
+            <button id="sendSelectedAsMemoryBtn">Envoyer le fichier sélectionné vers cette mémoire</button>
+          </div>
+          <textarea id="memoryContent" placeholder="Écris ou colle ici le contenu à envoyer dans la mémoire du projet..."></textarea>
+        </div>
+
+        <div id="prompt-area">
+          <textarea id="promptInput" placeholder="Décris ce que tu veux faire. Ex: 'Explique le bug dans server.ts' ou 'Génère un service UserService...'"></textarea>
+          <div id="prompt-actions">
+            <button id="chatBtn">Chat</button>
+            <button id="generateBtn">Generate</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
