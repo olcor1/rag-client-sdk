@@ -49,6 +49,8 @@ app.post("/api/sync", async (req, res) => {
     const { projectId, filePaths } = req.body || {};
     const pid = projectId || defaultProjectId;
     const files = packFiles(filePaths || [], process.cwd());
+    console.log("[SYNC] filePaths=", filePaths);
+    console.log("[SYNC] packed=", files.map(f => f.path));
     const result = await client.sync({ projectId: pid, files });
     res.json({ ok: true, synced: files.map(f => f.path), result });
   } catch (err) {
