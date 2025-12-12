@@ -5,8 +5,14 @@ const path = require("path");
 function packFiles(filePaths, baseDir = process.cwd()) {
   const out = [];
   for (const p of filePaths || []) {
-    const rel = p.replace(/^\.\//, "");
+    // ✅ IMPORTANT: enlever / au début + ./ + backslashes
+    const rel = String(p)
+      .replace(/\\/g, "/")
+      .replace(/^\/+/, "")     // <--- enlève les / au début
+      .replace(/^\.\//, "");   // <--- enlève ./ au début
+
     const abs = path.join(baseDir, rel);
+
     if (!fs.existsSync(abs) || fs.statSync(abs).isDirectory()) continue;
     const content = fs.readFileSync(abs, "utf-8");
     out.push({ path: rel, content });
